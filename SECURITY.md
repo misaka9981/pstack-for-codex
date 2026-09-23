@@ -8,7 +8,7 @@ Security fixes are accepted against the default branch of this repository (`main
 
 Do **not** open a public GitHub issue for security reports that include exploit details, credentials, or private user data.
 
-Report vulnerabilities privately by emailing the maintainers through the contact methods listed on the [GitHub repository](https://github.com/Aqua-123/pstack-for-codex), or by opening a private [GitHub Security Advisory](https://github.com/Aqua-123/pstack-for-codex/security/advisories/new) when that feature is available.
+Report vulnerabilities privately by emailing the maintainers through the contact methods listed on the [GitHub repository](https://github.com/misaka9981/pstack-for-codex), or by opening a private [GitHub Security Advisory](https://github.com/misaka9981/pstack-for-codex/security/advisories/new) when that feature is available.
 
 Please include:
 
