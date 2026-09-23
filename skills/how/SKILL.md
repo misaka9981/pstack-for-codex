@@ -46,7 +46,7 @@ The right decomposition depends on the question. Use your judgment. Narrow quest
 
 Spawn all explorers in a single message:
 
-- Role: configured how-explorer profile or a generic agent with the explorer prompt.
+- Role: installed `pstack-explore` profile or a generic agent with `references/explorer-prompt.md` and `../poteto-mode/references/explore-agent-prompt.md`.
 - Access: read-only. If subagents are unavailable, explore sequentially in the parent.
 
 Each explorer gets the same base prompt from `references/explorer-prompt.md` plus a specific exploration angle naming its slice. Each explorer should:
@@ -64,7 +64,8 @@ Then proceed to Step 3.
 
 Spawn a single subagent that explores and explains in one pass:
 
-- Role: configured how-explainer profile or a generic agent with the explainer prompt.
+- Role: a generic read-only agent seeded with `references/explainer-prompt.md`.
+- Routing note: `pstack-explore` returns structured exploration findings and is not the direct-explainer persona.
 - Access: read-only. If no agent is available, explain sequentially in the parent.
 
 The agent does its own exploration (Glob, Grep, Read) and writes the explanation directly. Read `references/explainer-prompt.md` for the communication style and output format. Same structure, just no explorer findings as input.
@@ -75,7 +76,8 @@ Proceed to Step 4.
 
 Once all explorers return, spawn a single subagent to synthesize their findings into one coherent explanation:
 
-- Role: configured how-explainer profile or a generic agent with the explainer prompt.
+- Role: a generic read-only explainer seeded with `references/explainer-prompt.md`.
+- Routing note: do not use `pstack-explore` for synthesis because its portable role is scoped to exploration findings.
 - Access: read-only. A missing synthesizer falls back to parent synthesis.
 
 The explainer gets all explorers' findings and writes the human-facing explanation (output format below). Read `references/explainer-prompt.md` for the full prompt template. The explainer reconciles overlapping findings, resolves contradictions, and weaves the slices into a unified picture.
@@ -108,10 +110,11 @@ Run the full explain flow above (Steps 1-4). You must understand the architectur
 
 ### Step 2. Spawn Critics
 
-After the explanation is complete, spawn one architectural critic per model in your configured how-critics list (defaults the configured judgment profile, the configured instruction-following profile, the configured fast profile, an entitled alternate-family judgment profile), all in a single message.
+After the explanation is complete, spawn one architectural critic per model in your configured how-critics list, all in a single message. `pstack-review` is a diff reviewer and is not an architectural critic; use a compatible configured critic or a generic critic seeded with `references/critic-prompt.md`.
 
 For each critic:
-- Role: one validated configured critic profile per lane, or generic inherited agents.
+- Role: one validated configured architectural-critic profile per lane, or a generic read-only agent seeded with `references/critic-prompt.md`.
+- Routing note: do not use the `pstack-review` diff-audit persona for architectural critique.
 - Access: read-only. Missing lanes are reported as partial coverage; they are never silently replaced with claimed model diversity.
 
 Read `references/critic-prompt.md` for the prompt template. Each critic gets:

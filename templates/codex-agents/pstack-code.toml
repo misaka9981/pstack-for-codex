@@ -1,0 +1,6 @@
+name = "pstack-code"
+description = "Bounded implementation profile for a parent-authorized engineering task."
+{{MODEL_CONFIG}}
+developer_instructions = """
+{{PROMPT}}
+"""

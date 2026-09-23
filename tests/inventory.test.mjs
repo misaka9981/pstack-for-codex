@@ -10,13 +10,21 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const readJson = async (relative) => JSON.parse(await fs.readFile(path.join(root, relative), "utf8"));
 
 test("fork and upstream identities remain separate", async () => {
-  const [manifest, packageJson, lock] = await Promise.all([
+  const [manifest, packageJson, packageLock, lock] = await Promise.all([
     readJson(".codex-plugin/plugin.json"),
     readJson("package.json"),
+    readJson("package-lock.json"),
     readJson("upstream.lock.json"),
   ]);
-  assert.equal(manifest.version, "0.2.0");
-  assert.equal(packageJson.version, "0.2.0");
+  assert.equal(manifest.version, "0.2.1");
+  assert.equal(packageJson.version, "0.2.1");
+  assert.equal(packageLock.version, "0.2.1");
+  assert.equal(packageLock.packages[""].version, "0.2.1");
+  assert.equal(manifest.homepage, "https://github.com/misaka9981/pstack-for-codex");
+  assert.equal(manifest.repository, "https://github.com/misaka9981/pstack-for-codex");
+  assert.equal(manifest.interface.websiteURL, "https://github.com/misaka9981/pstack-for-codex");
+  assert.equal(packageJson.homepage, "https://github.com/misaka9981/pstack-for-codex");
+  assert.equal(packageJson.repository, "https://github.com/misaka9981/pstack-for-codex");
   assert.equal(lock.source.version, "0.15.1");
   assert.equal(lock.source.commit, "f8abeddd1862dc73704e3d719dd73df0d51b8c71");
   assert.equal(lock.inventory.fileCount, 158);

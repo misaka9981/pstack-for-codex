@@ -44,6 +44,8 @@ $poteto-mode compare two parser designs. Put each disposable candidate in its ow
 
 The parent integrates the winner and runs the authoritative checks.
 
+When the optional profiles are installed, Poteto routes bounded planning to `pstack-plan`, read-only codebase investigation to `pstack-explore`, implementation to `pstack-code`, and independent diff review to `pstack-review`. The continuing `pstack-poteto-agent` remains the only custom profile that receives hook-provided session context. Missing profiles use the matching portable prompt or the playbook's sequential fallback. `pstack-comment-sicko` remains the no-comments reviewer.
+
 ## Expect visible fallbacks
 
 A playbook declares what happens when a custom profile, subagent, connector, control tool, or history API is unavailable. The common fallbacks are sequential parent work, a generic agent with a portable prompt, a labeled partial result, or a closed stop. Poteto Mode does not silently drop a lane.

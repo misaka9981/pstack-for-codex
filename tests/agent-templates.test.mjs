@@ -33,7 +33,7 @@ test("project-scoped templates render supported Codex agent TOML", async (t) => 
   const result = await installAgents({ pluginRoot: root, projectRoot, userHome, scope: "project" });
 
   assert.equal(result.status, "installed");
-  assert.equal(result.files.length, 2);
+  assert.equal(result.files.length, 6);
   for (const file of result.files) {
     assert.match(file.path, /^\.codex\/agents\/pstack-/);
     const content = await fs.readFile(path.join(projectRoot, file.path), "utf8");
@@ -48,6 +48,18 @@ test("project-scoped templates render supported Codex agent TOML", async (t) => 
   );
   assert.match(commentProfile, /^sandbox_mode = "read-only"$/m);
   assert.match(commentProfile, /Do not use connectors or external network tools/);
+  for (const name of ["pstack-plan", "pstack-review", "pstack-explore"]) {
+    const content = await fs.readFile(path.join(projectRoot, `.codex/agents/${name}.toml`), "utf8");
+    assert.match(content, /^sandbox_mode = "read-only"$/m);
+    assert.doesNotMatch(content, /^model(?:_reasoning_effort)?\s*=/m);
+  }
+  const codeProfile = await fs.readFile(path.join(projectRoot, ".codex/agents/pstack-code.toml"), "utf8");
+  assert.match(codeProfile, /bounded task/i);
+  assert.doesNotMatch(codeProfile, /^model(?:_reasoning_effort)?\s*=/m);
+  for (const name of ["pstack-poteto-agent", "pstack-comment-sicko"]) {
+    const content = await fs.readFile(path.join(projectRoot, `.codex/agents/${name}.toml`), "utf8");
+    assert.doesNotMatch(content, /^model(?:_reasoning_effort)?\s*=/m);
+  }
 });
 
 test("duplicate TOML names are detected across project and user layers regardless of filename", async (t) => {
@@ -81,22 +93,65 @@ test("an existing differently named file with a pstack agent name is never overw
 
 test("a model pair is rendered only after the observable list validates it", async (t) => {
   const { projectRoot, userHome } = await fixture(t);
-  const requested = { model: "gpt-5.6-sol", reasoning_effort: "high" };
+  const requested = { model: "gpt-6-sol", reasoning_effort: "high" };
   const result = await installAgents({
     pluginRoot: root,
     projectRoot,
     userHome,
     scope: "project",
     profile: { "pstack-poteto-agent": requested },
-    observableModels: [{ slug: "gpt-5.6-sol", reasoning_efforts: ["high"] }],
+    observableModels: [
+      { slug: "gpt-6-sol", reasoning_efforts: ["medium", "high"] },
+      { slug: "gpt-6-luna", reasoning_efforts: ["xhigh"] },
+    ],
   });
   const content = await fs.readFile(
     path.join(projectRoot, ".codex/agents/pstack-poteto-agent.toml"),
     "utf8",
   );
-  assert.match(content, /^model = "gpt-5\.6-sol"$/m);
+  assert.match(content, /^model = "gpt-6-sol"$/m);
   assert.match(content, /^model_reasoning_effort = "high"$/m);
   const policy = result.files.find((file) => file.path.endsWith("pstack-poteto-agent.toml")).model_policy;
   assert.equal(policy.status, "verified-explicit");
   assert.deepEqual(policy.resolved, requested);
+});
+
+test("default role requests write model pairs only when the observable list validates them", async (t) => {
+  const { projectRoot, userHome } = await fixture(t);
+  const installed = await installAgents({
+    pluginRoot: root,
+    projectRoot,
+    userHome,
+    scope: "project",
+    observableModels: [
+      { slug: "gpt-6-sol", reasoning_efforts: ["medium"] },
+      { slug: "gpt-6-luna", reasoning_efforts: ["xhigh"] },
+    ],
+  });
+  const expected = {
+    "pstack-plan": ["gpt-6-sol", "medium"],
+    "pstack-review": ["gpt-6-sol", "medium"],
+    "pstack-explore": ["gpt-6-luna", "xhigh"],
+    "pstack-code": ["gpt-6-luna", "xhigh"],
+  };
+  for (const [name, [model, effort]] of Object.entries(expected)) {
+    const content = await fs.readFile(path.join(projectRoot, `.codex/agents/${name}.toml`), "utf8");
+    assert.match(content, new RegExp(`^model = "${model}"$`, "m"));
+    assert.match(content, new RegExp(`^model_reasoning_effort = "${effort}"$`, "m"));
+    assert.equal(installed.files.find((record) => record.path.endsWith(`${name}.toml`)).model_policy.status, "verified-explicit");
+  }
+});
+
+test("an explicit null profile overrides its requested default and inherits", async (t) => {
+  const { projectRoot, userHome } = await fixture(t);
+  const installed = await installAgents({
+    pluginRoot: root,
+    projectRoot,
+    userHome,
+    scope: "project",
+    profile: { "pstack-plan": null },
+  });
+  const content = await fs.readFile(path.join(projectRoot, ".codex/agents/pstack-plan.toml"), "utf8");
+  assert.doesNotMatch(content, /^model(?:_reasoning_effort)?\s*=/m);
+  assert.equal(installed.files.find((record) => record.path.endsWith("pstack-plan.toml")).model_policy.status, "inherited");
 });

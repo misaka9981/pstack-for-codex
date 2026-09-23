@@ -1,0 +1,7 @@
+name = "pstack-explore"
+description = "Read-only codebase explorer that returns grounded findings and file pointers."
+sandbox_mode = "read-only"
+{{MODEL_CONFIG}}
+developer_instructions = """
+{{PROMPT}}
+"""

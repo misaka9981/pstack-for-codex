@@ -95,7 +95,7 @@ Read the leaf skill in full for any principle you apply. Each entry names when i
 
 ## Subagents
 
-**Use the exact custom profile `pstack-poteto-agent` for playbook delegates when installed.** Otherwise use a generic delegate and include `references/poteto-agent-prompt.md` in its prompt. Routed workflow skills (`how`, `why`, `interrogate`, `reflect`, `swarm`) own their role choices. Model and effort remain separate, observable values. Inherit the parent when a configured pair cannot be validated.
+Route independent planning to `pstack-plan`, read-only codebase investigation to `pstack-explore`, bounded implementation to `pstack-code`, and read-only diff review to `pstack-review` when each profile is installed. Otherwise use the relevant portable prompt with a generic agent or the runtime contract's sequential fallback. The exact `pstack-poteto-agent` remains the continuing playbook delegate and the only profile that receives hook-provided Poteto session context. Keep `pstack-comment-sicko` for the no-comments audit. Routed workflow skills (`how`, `why`, `interrogate`, `reflect`, `swarm`) still own their role choices. Model and effort remain separate, observable values. Inherit the parent when a configured pair cannot be validated.
 
 Follow `references/codex-agent-runtime.md` before dispatch. Prove write isolation first. The parent reviews actual results and produces the final summary. Steering, cancellation, retries, partial results, nested work, and unavailable capabilities use the contract's declared paths.
 

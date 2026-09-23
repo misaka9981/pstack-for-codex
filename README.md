@@ -9,11 +9,11 @@ Use `$poteto-mode` for a substantial engineering task. It selects a playbook, re
 This public repository is a Codex marketplace. Install it directly from GitHub:
 
 ```bash
-codex plugin marketplace add Aqua-123/pstack-for-codex
+codex plugin marketplace add misaka9981/pstack-for-codex
 codex plugin add pstack-for-codex@pstack-for-codex-local
 ```
 
-For a local checkout, replace `Aqua-123/pstack-for-codex` with its absolute path. Confirm the installed plugin:
+For a local checkout, replace `misaka9981/pstack-for-codex` with its absolute path. Confirm the installed plugin:
 
 ```bash
 codex plugin list --json
@@ -31,12 +31,13 @@ Start a new task after installation so Codex reloads the plugin catalog. See [Se
 
 ## Optional agent profiles
 
-The skills work without custom agent profiles. Use `$setup-pstack` only when you want to install the two optional profiles:
+The skills work without custom agent profiles. Use `$setup-pstack` to install the six optional profiles:
 
-- `pstack-poteto-agent` for implementation and orchestration.
+- `pstack-poteto-agent` for the continuing Poteto playbook delegate. This remains the only profile that receives hook-provided Poteto session context.
 - `pstack-comment-sicko` for read-only comment review.
+- `pstack-plan`, `pstack-explore`, `pstack-code`, and `pstack-review` for planning, read-only investigation, bounded implementation, and read-only diff review.
 
-Setup writes either project profiles under `.codex/agents/` or user profiles under `~/.codex/agents/`. It records file hashes in a receipt and refuses to overwrite files owned by someone else. An explicit `model` and `reasoning_effort` pair is accepted only when a supported Codex model-list surface proves the pair. Otherwise the profile inherits the parent model and the receipt records that the requested pair is unverified.
+Setup writes either project profiles under `.codex/agents/` or user profiles under `~/.codex/agents/`. It records file hashes in a receipt and refuses to overwrite files owned by someone else. New installs request Sol/medium for plan and review, Luna/xhigh for explore and code, and inherit the parent model for the two original profiles. A requested `model` and `reasoning_effort` pair is written only when a supported Codex model-list surface proves it. Otherwise both TOML fields are omitted and the receipt records the unverified request. Existing v1 two-profile receipts upgrade after both old hashes validate while preserving the old profile bytes and model policies; interrupted migrations resume only when every existing file still matches the transaction or its prior receipt.
 
 Read [Agent setup and model evidence](./docs/codex-adaptation.md#agent-setup-and-model-evidence) before changing profiles.
 
@@ -116,7 +117,7 @@ codex plugin remove pstack-for-codex@pstack-for-codex-local
 codex plugin marketplace remove pstack-for-codex-local
 ```
 
-Plugin removal does not delete project or user files created by `$setup-pstack` or `$setup-benny`. Use those skills to inspect receipts and remove only unchanged, owned files. Benny configuration and mutable state survive uninstall unless the user separately authorizes a purge.
+Plugin removal does not delete project or user files created by `$setup-pstack` or `$setup-benny`. `$setup-pstack` atomically archives receipted profiles and their receipt during uninstall instead of deleting profile bytes; review the archive manifest before any manual purge. Benny configuration and mutable state survive uninstall unless the user separately authorizes a purge.
 
 ## Origin and maintenance
 

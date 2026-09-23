@@ -1,0 +1,7 @@
+name = "pstack-review"
+description = "Independent read-only reviewer for implementation risks and regressions."
+sandbox_mode = "read-only"
+{{MODEL_CONFIG}}
+developer_instructions = """
+{{PROMPT}}
+"""

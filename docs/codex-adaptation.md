@@ -24,12 +24,16 @@ The upstream personas became portable prompts plus optional Codex TOML profiles:
 
 | Role | Portable prompt | Optional profile |
 |---|---|---|
-| Poteto implementation | [`poteto-agent-prompt.md`](../skills/poteto-mode/references/poteto-agent-prompt.md) | `pstack-poteto-agent` |
+| Continuing Poteto playbook delegate and session context | [`poteto-agent-prompt.md`](../skills/poteto-mode/references/poteto-agent-prompt.md) | `pstack-poteto-agent` |
 | Comment review | [`comment-sicko-prompt.md`](../skills/no-comments/references/comment-sicko-prompt.md) | `pstack-comment-sicko` |
+| Planning | [`plan-agent-prompt.md`](../skills/poteto-mode/references/plan-agent-prompt.md) | `pstack-plan` |
+| Read-only codebase exploration | [`explore-agent-prompt.md`](../skills/poteto-mode/references/explore-agent-prompt.md) | `pstack-explore` |
+| Bounded implementation | [`code-agent-prompt.md`](../skills/poteto-mode/references/code-agent-prompt.md) | `pstack-code` |
+| Independent read-only diff review | [`review-agent-prompt.md`](../skills/poteto-mode/references/review-agent-prompt.md) | `pstack-review` |
 
-`$setup-pstack` installs profiles at project or user scope. Its receipt records hashes and ownership. Upgrade and uninstall refuse a hash mismatch or duplicate agent name.
+`$setup-pstack` installs profiles at project or user scope. Its schema-v2 receipt records hashes and ownership. A schema-v1 receipt for the original two profiles upgrades only after both existing files match their recorded hashes. The migration journal makes interrupted writes resumable and refuses to overwrite a profile that no longer matches either the starting receipt or the staged profile. Upgrade stops on hash mismatches or duplicate names. Uninstall atomically archives managed profile files and the receipt under a receipt-keyed directory rather than deleting profile bytes. Files already divergent during inspection remain in place; edits racing with the archive move are retained in the archive and recorded in its manifest.
 
-A configured model is a request, not runtime evidence. Setup validates a `model` and `reasoning_effort` pair only against a supported live model list. When that list is unavailable, the profile inherits the parent and the receipt records `unverified-inheritance`. Runtime reports identify the served model only when a supported surface exposes it.
+A configured model is a request, not runtime evidence. New installs request `gpt-6-sol` at `medium` for plan/review and `gpt-6-luna` at `xhigh` for explore/code. Setup writes a `model` and `reasoning_effort` pair only when a supported live model list validates both values. When that list is unavailable, both fields are omitted, the profile inherits the parent, and the receipt records `unverified-inheritance` plus the requested pair. Existing receipted profiles retain their exact bytes and model-policy records. The parent Poteto profile inherits the parent model by default. Runtime reports identify the served model only when a supported surface exposes it.
 
 ## Delegation and shared filesystems
 
