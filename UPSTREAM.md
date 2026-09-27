@@ -1,6 +1,6 @@
 # Upstream maintenance
 
-This repository derives from `pstack` in `https://github.com/cursor/plugins`. The locked source is version `0.15.1` at commit `f8abeddd1862dc73704e3d719dd73df0d51b8c71`.
+This repository derives from `pstack` in `https://github.com/cursor/plugins`. The locked source is version `0.15.5` at commit `12d587dfb20741cafc376c42c696c5f6e2a64487`.
 
 The delivered repository contains only the modified Codex version. Do not push a raw upstream branch or snapshot commit. Do not keep an upstream remote in the delivered checkout.
 
@@ -19,7 +19,7 @@ Use a temporary local source checkout. The import helper removes its own tempora
 node scripts/import-upstream.mjs \
   --source https://github.com/cursor/plugins \
   --subdirectory pstack \
-  --commit f8abeddd1862dc73704e3d719dd73df0d51b8c71 \
+  --commit 12d587dfb20741cafc376c42c696c5f6e2a64487 \
   --verify-lock \
   --dry-run
 ```

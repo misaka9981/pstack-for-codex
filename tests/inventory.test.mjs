@@ -16,17 +16,17 @@ test("fork and upstream identities remain separate", async () => {
     readJson("package-lock.json"),
     readJson("upstream.lock.json"),
   ]);
-  assert.equal(manifest.version, "0.2.1");
-  assert.equal(packageJson.version, "0.2.1");
-  assert.equal(packageLock.version, "0.2.1");
-  assert.equal(packageLock.packages[""].version, "0.2.1");
+  assert.equal(manifest.version, "0.2.2");
+  assert.equal(packageJson.version, "0.2.2");
+  assert.equal(packageLock.version, "0.2.2");
+  assert.equal(packageLock.packages[""].version, "0.2.2");
   assert.equal(manifest.homepage, "https://github.com/misaka9981/pstack-for-codex");
   assert.equal(manifest.repository, "https://github.com/misaka9981/pstack-for-codex");
   assert.equal(manifest.interface.websiteURL, "https://github.com/misaka9981/pstack-for-codex");
   assert.equal(packageJson.homepage, "https://github.com/misaka9981/pstack-for-codex");
   assert.equal(packageJson.repository, "https://github.com/misaka9981/pstack-for-codex");
-  assert.equal(lock.source.version, "0.15.1");
-  assert.equal(lock.source.commit, "f8abeddd1862dc73704e3d719dd73df0d51b8c71");
+  assert.equal(lock.source.version, "0.15.5");
+  assert.equal(lock.source.commit, "12d587dfb20741cafc376c42c696c5f6e2a64487");
   assert.equal(lock.inventory.fileCount, 158);
 });
 

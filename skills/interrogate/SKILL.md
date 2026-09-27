@@ -34,14 +34,13 @@ Write one clear paragraph. Reviewers challenge whether the work achieves the int
 
 ## Step 3, Spawn Reviewers
 
-Launch all reviewers in a single message using the supported subagent tools. Use the `interrogate reviewers` list from the installed pstack model profiles when present, one reviewer per entry, extending or shrinking the Reviewer A/B/C/D labels below to the configured entry count; otherwise use the table defaults.
+Launch all reviewers in a single message using the supported subagent tools. Use the `interrogate reviewers` list from the installed pstack model profiles when present, one reviewer per entry, extending or shrinking the Reviewer A/B/C labels below to the configured entry count; otherwise use the table defaults.
 
 | Subagent | Default model |
 |----------|---------------|
 | Reviewer A | the configured judgment profile |
 | Reviewer B | the configured instruction-following profile |
 | Reviewer C | the configured fast profile |
-| Reviewer D | an entitled alternate-family judgment profile |
 
 Each reviewer uses a validated configured profile or a generic read-only agent with an inherited model pair. Keep `model` and `reasoning_effort` separate. When a requested pair is unavailable, follow that role's declared substitute, inherit, skip, or fail-closed policy. Report skipped lanes and unverified served identities. Do not open a configuration PR unless the active request authorizes repository writes.
 
