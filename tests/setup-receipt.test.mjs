@@ -470,12 +470,12 @@ test("a v1 two-role user receipt upgrades only its unchanged profiles and preser
     const content = await fs.readFile(path.join(codexRoot, record.path), "utf8");
     assert.doesNotMatch(content, /^model(?:_reasoning_effort)?\s*=/m);
     assert.equal(record.model_policy.status, "unverified-inheritance");
-    assert.ok(record.model_policy.requested.model.startsWith("gpt-6-"));
+    assert.ok(/^gpt-6[.-]/.test(record.model_policy.requested.model));
   }
-  assert.equal(upgraded.files.find((item) => item.path.endsWith("pstack-plan.toml")).model_policy.requested.reasoning_effort, "medium");
-  assert.equal(upgraded.files.find((item) => item.path.endsWith("pstack-review.toml")).model_policy.requested.reasoning_effort, "medium");
-  assert.equal(upgraded.files.find((item) => item.path.endsWith("pstack-explore.toml")).model_policy.requested.reasoning_effort, "xhigh");
-  assert.equal(upgraded.files.find((item) => item.path.endsWith("pstack-code.toml")).model_policy.requested.reasoning_effort, "xhigh");
+  assert.equal(upgraded.files.find((item) => item.path.endsWith("pstack-plan.toml")).model_policy.requested.reasoning_effort, "high");
+  assert.equal(upgraded.files.find((item) => item.path.endsWith("pstack-review.toml")).model_policy.requested.reasoning_effort, "high");
+  assert.equal(upgraded.files.find((item) => item.path.endsWith("pstack-explore.toml")).model_policy.requested.reasoning_effort, "high");
+  assert.equal(upgraded.files.find((item) => item.path.endsWith("pstack-code.toml")).model_policy.requested.reasoning_effort, "high");
   const preservedComment = await fs.readFile(path.join(codexRoot, "agents/pstack-comment-sicko.toml"), "utf8");
   assert.match(preservedComment, /^model = "gpt-5\.6-terra"$/m);
   assert.match(preservedComment, /^model_reasoning_effort = "medium"$/m);

@@ -35,7 +35,7 @@ const ROLE_SPECS = [
     name: "pstack-plan",
     template: "templates/codex-agents/pstack-plan.toml",
     prompt: "skills/poteto-mode/references/plan-agent-prompt.md",
-    defaultRequested: { model: "gpt-6-sol", reasoning_effort: "medium" },
+    defaultRequested: { model: "gpt-6-astra", reasoning_effort: "high" },
     capability: {
       sandbox: "requested-read-only-unverified-until-runtime",
       writable_scope: "none",
@@ -48,7 +48,7 @@ const ROLE_SPECS = [
     name: "pstack-review",
     template: "templates/codex-agents/pstack-review.toml",
     prompt: "skills/poteto-mode/references/review-agent-prompt.md",
-    defaultRequested: { model: "gpt-6-sol", reasoning_effort: "medium" },
+    defaultRequested: { model: "gpt-6-astra", reasoning_effort: "high" },
     capability: {
       sandbox: "requested-read-only-unverified-until-runtime",
       writable_scope: "none",
@@ -61,7 +61,7 @@ const ROLE_SPECS = [
     name: "pstack-explore",
     template: "templates/codex-agents/pstack-explore.toml",
     prompt: "skills/poteto-mode/references/explore-agent-prompt.md",
-    defaultRequested: { model: "gpt-6-luna", reasoning_effort: "xhigh" },
+    defaultRequested: { model: "gpt-6.1-sol", reasoning_effort: "high" },
     capability: {
       sandbox: "requested-read-only-unverified-until-runtime",
       writable_scope: "none",
@@ -74,7 +74,7 @@ const ROLE_SPECS = [
     name: "pstack-code",
     template: "templates/codex-agents/pstack-code.toml",
     prompt: "skills/poteto-mode/references/code-agent-prompt.md",
-    defaultRequested: { model: "gpt-6-luna", reasoning_effort: "xhigh" },
+    defaultRequested: { model: "gpt-6.1-sol", reasoning_effort: "high" },
     capability: {
       sandbox: "inherited-unverified-at-setup",
       writable_scope: "parent-request-only",

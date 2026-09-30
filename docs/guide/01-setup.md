@@ -36,7 +36,7 @@ $setup-pstack install the pstack agents for this project.
 
 Choose `project` or `user` scope when asked. Project scope writes `.codex/agents/*.toml`. User scope writes `~/.codex/agents/*.toml`. Setup scans both locations for duplicate agent names and refuses to overwrite unowned files.
 
-New installs request gpt-6-sol/medium for plan and review, and gpt-6-luna/xhigh for explore and code. The original Poteto and Comment Sicko profiles inherit the parent model by default. Setup writes a requested pair only when a supported live model list proves both values. If the model list is unavailable, setup records `unverified-inheritance` and omits both TOML fields. Migration preserves existing v1 profile bytes and model requests. It adds only the four missing profiles when both old files still match their receipt. An interrupted migration resumes from its journal if no file has diverged; otherwise setup stops and preserves all files for review.
+New installs request gpt-6-astra/high for plan and review, and gpt-6.1-sol/high for explore and code. The original Poteto and Comment Sicko profiles inherit the parent model by default. Setup writes a requested pair only when a supported live model list proves both values. If the model list is unavailable, setup records `unverified-inheritance` and omits both TOML fields. Migration preserves existing v1 profile bytes and model requests. It adds only the four missing profiles when both old files still match their receipt. An interrupted migration resumes from its journal if no file has diverged; otherwise setup stops and preserves all files for review.
 
 The result includes the written paths, receipt path, hashes, and configuration status. New profiles apply to agents spawned after installation.
 

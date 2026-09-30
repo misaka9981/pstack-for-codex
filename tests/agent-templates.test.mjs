@@ -93,7 +93,7 @@ test("an existing differently named file with a pstack agent name is never overw
 
 test("a model pair is rendered only after the observable list validates it", async (t) => {
   const { projectRoot, userHome } = await fixture(t);
-  const requested = { model: "gpt-6-sol", reasoning_effort: "high" };
+  const requested = { model: "gpt-6-astra", reasoning_effort: "high" };
   const result = await installAgents({
     pluginRoot: root,
     projectRoot,
@@ -101,15 +101,15 @@ test("a model pair is rendered only after the observable list validates it", asy
     scope: "project",
     profile: { "pstack-poteto-agent": requested },
     observableModels: [
-      { slug: "gpt-6-sol", reasoning_efforts: ["medium", "high"] },
-      { slug: "gpt-6-luna", reasoning_efforts: ["xhigh"] },
+      { slug: "gpt-6-astra", reasoning_efforts: ["medium", "high"] },
+      { slug: "gpt-6.1-sol", reasoning_efforts: ["high"] },
     ],
   });
   const content = await fs.readFile(
     path.join(projectRoot, ".codex/agents/pstack-poteto-agent.toml"),
     "utf8",
   );
-  assert.match(content, /^model = "gpt-6-sol"$/m);
+  assert.match(content, /^model = "gpt-6-astra"$/m);
   assert.match(content, /^model_reasoning_effort = "high"$/m);
   const policy = result.files.find((file) => file.path.endsWith("pstack-poteto-agent.toml")).model_policy;
   assert.equal(policy.status, "verified-explicit");
@@ -124,15 +124,15 @@ test("default role requests write model pairs only when the observable list vali
     userHome,
     scope: "project",
     observableModels: [
-      { slug: "gpt-6-sol", reasoning_efforts: ["medium"] },
-      { slug: "gpt-6-luna", reasoning_efforts: ["xhigh"] },
+      { slug: "gpt-6-astra", reasoning_efforts: ["high"] },
+      { slug: "gpt-6.1-sol", reasoning_efforts: ["high"] },
     ],
   });
   const expected = {
-    "pstack-plan": ["gpt-6-sol", "medium"],
-    "pstack-review": ["gpt-6-sol", "medium"],
-    "pstack-explore": ["gpt-6-luna", "xhigh"],
-    "pstack-code": ["gpt-6-luna", "xhigh"],
+    "pstack-plan": ["gpt-6-astra", "high"],
+    "pstack-review": ["gpt-6-astra", "high"],
+    "pstack-explore": ["gpt-6.1-sol", "high"],
+    "pstack-code": ["gpt-6.1-sol", "high"],
   };
   for (const [name, [model, effort]] of Object.entries(expected)) {
     const content = await fs.readFile(path.join(projectRoot, `.codex/agents/${name}.toml`), "utf8");

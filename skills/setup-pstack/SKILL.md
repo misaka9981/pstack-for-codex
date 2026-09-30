@@ -21,12 +21,12 @@ Read `references/model-profile.md` before changing configuration. The portable p
 
 ## Model policy
 
-New installs request `gpt-6-sol` with `medium` for `pstack-plan` and `pstack-review`, and `gpt-6-luna` with `xhigh` for `pstack-explore` and `pstack-code`. The original `pstack-poteto-agent` and `pstack-comment-sicko` profiles inherit the parent by default. Requested defaults are not entitlement evidence. A profile JSON value of `null` explicitly selects parent inheritance; a pair overrides that role's default request. Existing receipted profiles keep their exact TOML bytes and model policy during migration or reinstall.
+New installs request `gpt-6-astra` with `high` for `pstack-plan` and `pstack-review`, and `gpt-6.1-sol` with `high` for `pstack-explore` and `pstack-code`. The original `pstack-poteto-agent` and `pstack-comment-sicko` profiles inherit the parent by default. Requested defaults are not entitlement evidence. A profile JSON value of `null` explicitly selects parent inheritance; a pair overrides that role's default request. Existing receipted profiles keep their exact TOML bytes and model policy during migration or reinstall.
 
 If a supported Codex model-list surface is observable, convert it to JSON records shaped like:
 
 ```json
-[{"slug":"gpt-6-sol","reasoning_efforts":["medium"]},{"slug":"gpt-6-luna","reasoning_efforts":["xhigh"]}]
+[{"slug":"gpt-6-astra","reasoning_efforts":["high"]},{"slug":"gpt-6.1-sol","reasoning_efforts":["high"]}]
 ```
 
 Validate both values before writing them. If no supported model list is observable, do not guess or accept pasted entitlement claims as proof: omit both TOML fields, inherit the parent, and record `unverified-inheritance` with the requested pair in the receipt. Never write a hardcoded unverified pair to TOML. A missing model or unsupported effort is a hard stop; let the user choose another pair or inheritance.
@@ -35,12 +35,12 @@ Profiles are a JSON object keyed by namespaced agent name:
 
 ```json
 {
-  "pstack-poteto-agent": {"model":"gpt-6-sol","reasoning_effort":"high"},
+  "pstack-poteto-agent": {"model":"gpt-6-astra","reasoning_effort":"high"},
   "pstack-comment-sicko": null,
-  "pstack-plan": {"model":"gpt-6-sol","reasoning_effort":"medium"},
-  "pstack-review": {"model":"gpt-6-sol","reasoning_effort":"medium"},
-  "pstack-explore": {"model":"gpt-6-luna","reasoning_effort":"xhigh"},
-  "pstack-code": {"model":"gpt-6-luna","reasoning_effort":"xhigh"}
+  "pstack-plan": {"model":"gpt-6-astra","reasoning_effort":"high"},
+  "pstack-review": {"model":"gpt-6-astra","reasoning_effort":"high"},
+  "pstack-explore": {"model":"gpt-6.1-sol","reasoning_effort":"high"},
+  "pstack-code": {"model":"gpt-6.1-sol","reasoning_effort":"high"}
 }
 ```
 
