@@ -1,5 +1,7 @@
 # pstack for Codex
 
+> **Archived.** This Codex port is superseded by [open-pstack](https://github.com/misaka9981/open-pstack), which serves Claude Code, Codex, and Pi from one shared skill tree.
+
 `pstack-for-codex` is a Codex-native derivative of [pstack](https://github.com/cursor/plugins/tree/main/pstack). It packages deliberate engineering workflows as 48 explicit-only skills and 23 Poteto Mode playbooks.
 
 Use `$poteto-mode` for a substantial engineering task. It selects a playbook, records the work as verifiable steps, and invokes narrower skills when the steps need them. The parent task keeps authority for integration, external writes, commits, pushes, and the final result.
